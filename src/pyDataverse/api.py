@@ -726,21 +726,21 @@ class Api(object):
 
         """
         query_str = '/datasets/:persistentId/actions/:publish'
-        query_str += '?persistentId={0}&type={1}'.format(identifier, type)
+        query_str += '?persistentId={0}&type={1}'.format(pid, type)
         resp = self.post_request(query_str, auth=auth)
 
         if resp.status_code == 404:
             error_msg = resp.json()['message']
             raise DatasetNotFoundError(
                 'ERROR: HTTP 404 - Dataset {0} was not found. MSG: {1}'
-                ''.format(identifier, error_msg))
+                ''.format(pid, error_msg))
         elif resp.status_code == 401:
             error_msg = resp.json()['message']
             raise ApiAuthorizationError(
                 'ERROR: HTTP 401 - User not allowed to publish dataset {0}. '
-                'MSG: {1}'.format(identifier, error_msg))
+                'MSG: {1}'.format(pid, error_msg))
         elif resp.status_code == 200:
-            print('Dataset {} published'.format(identifier))
+            print('Dataset {} published'.format(pid))
         return resp
 
     def delete_dataset(self, identifier, is_pid=True, auth=True):
