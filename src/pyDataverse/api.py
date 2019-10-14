@@ -764,6 +764,8 @@ class Api(object):
             persistent identifier (e.g. ``doi:10.11587/8H3N93``).
         is_pid : bool
             True, if identifier is a persistent identifier.
+        auth : bool
+            ``True``, if an api token should be sent. Defaults to ``True``.
 
         Returns
         -------
@@ -841,7 +843,7 @@ class Api(object):
         is_replace : bool
             ``True`` to replace already existing metadata. ``False``, if not.
         auth : bool
-            ``True``, if an api token should be sent. Defaults to ``False``.
+            ``True``, if an api token should be sent. Defaults to ``True``.
 
         Returns
         -------
