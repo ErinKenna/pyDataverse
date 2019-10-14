@@ -948,11 +948,10 @@ class Api(object):
 
         """
         if is_pid:
-            query_str = '/access/datafile/{0}'.format(identifier)
-        else:
             query_str = '/access/datafile/:persistentId/?persistentId={0}'
             ''.format(identifier)
         else:
+            query_str = '/access/datafile/{0}'.format(identifier)
         resp = self.get_request(query_str, auth=auth)
         return resp
 
