@@ -1080,6 +1080,60 @@ class Api(object):
         resp = json.loads(result.stdout)
         return resp
 
+    def search(self, q: str, types: str, subtree: str, sort: str, order: str, per_page: int = 10, start: int = 0,
+               show_relevance: bool = False, show_facets: bool = False, fq: str = '', show_entity_ids: bool = False, query_entities: bool = False):
+        """
+
+        :param q: The search term or terms. Using "title:data" will search only the "title" field. "*" can be used as
+                    a wildcard either alone or adjacent to a term (i.e. "bird*").
+                    See: https://demo.dataverse.org/api/search?q=title:data .
+                    For a list of fields to search, please see https://github.com/IQSS/dataverse/issues/2558 (for now).
+
+        :param types:   Can be either "dataverse", "dataset", or "file". Multiple "type" parameters can be used to
+                          include multiple types (i.e. type=dataset&type=file). If omitted, all types will be returned.
+                          See: https://demo.dataverse.org/api/search?q=*&type=dataset
+
+        :param subtree:     The identifier of the dataverse to which the search should be narrowed.
+                                The subtree of this dataverse and all its children will be searched.
+                                Multiple "subtree" parameters can be used to include multiple Dataverses.
+                                See: https://demo.dataverse.org/api/search?q=data&subtree=birds&subtree=cats
+
+        :param sort:    The sort field. Supported values include "name" and "date". See example under "order".
+
+        :param order:   The order in which to sort. Can either be "asc" or "desc".
+                            See: https://demo.dataverse.org/api/search?q=data&sort=name&order=asc
+
+        :param per_page:    The number of results to return per request. The default is 10. The max is 1000.
+                                See <http://guides.dataverse.org/en/latest/api/search.html#iteration-example>.
+
+        :param start:       A cursor for paging through search results.
+                                See <http://guides.dataverse.org/en/latest/api/search.html#iteration-example>
+
+        :param show_relevance:  Whether or not to show details of which fields were matched by the query.
+                                    False by default.
+                                    See: http://guides.dataverse.org/en/latest/api/search.html#advancedsearch-example
+
+        :param show_facets:  Whether or not to show facets that can be operated on by the “fq” parameter.
+                                False by default.
+                                See: http://guides.dataverse.org/en/latest/api/search.html#advancedsearch-example
+
+        :param fq:   A filter query on the search term. Multiple “fq” parameters can be used.
+                        See: http://guides.dataverse.org/en/latest/api/search.html#advancedsearch-example
+
+        :param show_entity_ids: Whether or not to show the database IDs of the search results (for developer use)
+
+        :param query_entities:  Whether entities are queried via direct database calls (for developer use)
+
+        :return:
+        """
+
+
+        query_str = '/search'
+        params = {}
+        result = self.get_request(query_str, params)
+
+        return
+
     def get_info_version(self):
         """Get the Dataverse version and build number.
 
