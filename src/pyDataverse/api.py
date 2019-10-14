@@ -916,7 +916,7 @@ class Api(object):
         resp = self.get_request(query_str)
         return resp
 
-    def get_datafile(self, identifier, is_pid=True):
+    def get_datafile(self, identifier, is_pid=True, auth=False):
         """Download a datafile via the Dataverse Data Access API.
 
         Get by file id (HTTP Request).
@@ -938,6 +938,8 @@ class Api(object):
             identifier of the datafile (e. g. doi).
         is_pid : bool
             ``True`` to use persistent identifier. ``False``, if not.
+        auth : bool
+            Should an api token be sent in the request. Defaults to `False`.
 
         Returns
         -------
@@ -950,7 +952,8 @@ class Api(object):
         else:
             query_str = '/access/datafile/:persistentId/?persistentId={0}'
             ''.format(identifier)
-        resp = self.get_request(query_str)
+        else:
+        resp = self.get_request(query_str, auth=auth)
         return resp
 
     def get_datafile_bundle(self, identifier):
