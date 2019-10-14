@@ -955,6 +955,45 @@ class Api(object):
         resp = self.get_request(query_str, auth=auth)
         return resp
 
+    def request_access(self, identifier, is_pid=True, auth=False):
+        """Request access to a datafile via the Dataverse Data Access API.
+
+        Get by file id (HTTP Request).
+
+        .. code-block:: bash
+
+            GET /api/access/datafile/$id
+
+        Get by persistent identifier (HTTP Request).
+
+        .. code-block:: bash
+
+            GET http://$SERVER/api/access/datafile/:persistentId/?persistentId=doi:10.5072/FK2/J8SJZB/requestAccess
+
+        Parameters
+        ----------
+        identifier : string
+            Identifier of the dataset. Can be datafile id or persistent
+            identifier of the datafile (e. g. doi).
+        is_pid : bool
+            ``True`` to use persistent identifier. ``False``, if not.
+        auth : bool
+            Should an api token be sent in the request. Defaults to `False`.
+
+        Returns
+        -------
+        requests.Response
+            Response object of requests library.
+
+        """
+        if is_pid:
+            query_str = '/access/datafile/:persistentId/?persistentId={0}/requestAccess'
+            ''.format(identifier)
+        else:
+            query_str = '/access/datafile/{0}/requestAccess'.format(identifier)
+        resp = self.put_request(query_str, auth=auth)
+        return resp
+
     def get_datafile_bundle(self, identifier):
         """Download a datafile in all its formats.
 
