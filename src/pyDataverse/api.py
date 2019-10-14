@@ -346,6 +346,8 @@ class Api(object):
         identifier : string
             Can either be a dataverse id (long), a dataverse alias (more
             robust), or the special value ``:root``.
+        auth : bool
+            Should an api token be sent in the request. Defaults to `False`.
 
         Returns
         -------
@@ -532,7 +534,7 @@ class Api(object):
             print('Dataverse {} deleted.'.format(identifier))
         return resp
 
-    def get_dataset(self, identifier, auth=True, is_pid=True):
+    def get_dataset(self, identifier, is_pid=True, auth=True):
         """Get metadata of a Dataset.
 
         With Dataverse identifier:
