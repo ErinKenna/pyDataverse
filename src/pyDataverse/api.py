@@ -1080,8 +1080,9 @@ class Api(object):
         resp = json.loads(result.stdout)
         return resp
 
-    def search(self, q: str, types: str, subtree: str, sort: str, order: str, per_page: int = 10, start: int = 0,
-               show_relevance: bool = False, show_facets: bool = False, fq: str = '', show_entity_ids: bool = False, query_entities: bool = False):
+    def search(self, q: str, types: str = '', subtree: str = '', sort: str = '', order: str = '', per_page: int = 10,
+               start: int = 0, show_relevance: bool = False, show_facets: bool = False, fq: str = '',
+               show_entity_ids: bool = False, query_entities: bool = False, auth: bool = False):
         """
 
         :param q: The search term or terms. Using "title:data" will search only the "title" field. "*" can be used as
@@ -1124,15 +1125,48 @@ class Api(object):
 
         :param query_entities:  Whether entities are queried via direct database calls (for developer use)
 
+        :param auth: Should an api token be sent in the request. Defaults to `False`.
+
         :return:
         """
 
-
         query_str = '/search'
-        params = {}
-        result = self.get_request(query_str, params)
 
-        return
+        # Tidy up 'empty' defaults
+        if q == '':
+            q = '*'
+        if types == '':
+            types = None
+        if subtree == '':
+            subtree = None
+        if sort == '':
+            sort = None
+        if order == '':
+            order = None
+        if fq == '':
+            fq = None
+
+        params = {
+            'q': q,
+            'types': types,
+            'subtree': subtree,
+            'sort': sort,
+            'order': order,
+            'per_page': per_page,
+            'start': start,
+            'show_relevance': show_relevance,
+            'show_facets': show_facets,
+            'fq': fq,
+            'show_entity_ids': show_entity_ids,
+            'query_entities': query_entities
+        }
+
+        # drop any query parameters that are empty
+        [params.pop(p_key) for p_key in list(params.keys()) if params.get(p_key) is None]
+
+        result = self.get_request(query_str, params, auth)
+
+        return result
 
     def get_info_version(self):
         """Get the Dataverse version and build number.
